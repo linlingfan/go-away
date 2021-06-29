@@ -1,9 +1,9 @@
 # 计算机网络
 
-1. http和https的区别
+###. http和https的区别
     https://www.cnblogs.com/wqhwe/p/5407468.html
     
-2. TCP流量控制和拥塞控制 
+###. TCP流量控制和拥塞控制 
     - [链接1](https://www.cnblogs.com/LloydDracarys/articles/9032696.html)
     - [链接2](https://blog.csdn.net/dangzhangjing97/article/details/81008836)
     - 流量控制（数据单位是字节）：通过滑动窗口实现，接收方在返回的ack中告知发送发自己接受窗口的大小，进而控制发送发数据发送的大小；
@@ -21,6 +21,7 @@
             - 定时器超时
             - 收到三次ack
             
-3. 三次握手 四次挥手
+###. 三次握手 四次挥手
     - 三次握手
     - 四次挥手
+### DNS域名解析的过程？
