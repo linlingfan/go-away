@@ -3,6 +3,8 @@
 ###. http和https的区别
     https://www.cnblogs.com/wqhwe/p/5407468.html
     
+### https加密过程
+    
 ###. TCP流量控制和拥塞控制 
     - [链接1](https://www.cnblogs.com/LloydDracarys/articles/9032696.html)
     - [链接2](https://blog.csdn.net/dangzhangjing97/article/details/81008836)
@@ -29,3 +31,7 @@
 ### TCP和UDP的区别？
 
 ### 如何保证TCP链接的稳定性
+
+### 打开一个URL的过程
+
+### 
