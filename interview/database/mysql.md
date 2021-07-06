@@ -1,5 +1,10 @@
 # mysql 相关
     - 关系型数据库。关系模型表明了数据库中所存储的数据之间的联系（一对一、一对多、多对多）
+## 参考资料
+- [JavaGuide-mysql](https://github.com/Snailclimb/JavaGuide/blob/master/docs/database/MySQL.md)
+- [mysql-全面总结](https://cloud.tencent.com/developer/article/1803404?from=article.detail.1614355)
+- [mysql-锁（全面总结）](https://cloud.tencent.com/developer/article/1614355)
+- [mysql之锁总结](https://cloud.tencent.com/developer/article/1444243?from=article.detail.1584918)
 ## mysql基础
 1. 启动服务：mysql.server start
 2. 登录mysql：mysql -u root -p xxx
@@ -23,7 +28,7 @@ MYISAM和InnoDB的区别：
 - Memory存储引擎：支持的数据类型有限，不支持text和blob类型；默认使用hash索引，数据都放在内存中，访问速度快。
 - Merge存储引擎：是一组MYISAM表的组合，本身没有数据，对其操作就是对内部MYISAM表的操作
 
-### mysql 事务和锁
+### mysql事务
 #### mysql的事务？事务的ACID特性？并发事务带来的问题以及解决（隔离级别）？事务的隔离级别？ 
 - 事务是逻辑上的一组操作；要么都执行，要么都不执行。
 - 四种特性：
@@ -32,7 +37,7 @@ MYISAM和InnoDB的区别：
     * 隔离性
     * 持久性
 - 并发带来的问题：
-    * 脏读：事务B读取到事务A正在修改但未提交的数据。
+    * 脏读：事务B读取并使用事务A正在修改但未提交的数据，最后A回滚了。
     * 丢失修改：事务A和事务B同时读到数据d，事务A修改提交数据d后；事务B也修改提交覆盖数据d，造成事务A数据修改的丢失。
     * 不可重复读：事务A在未提交前多次读取数据d，在此期间事务B（其他事务）读取并修改了数据d，导致事务A多次读取的数据d不一致。
     * 幻读：幻读和不可重复读类似。事务A读取几行数据期间，事务B插入了几行数据；导致事务A在随后的查询中发现了几行原本不存在的数据。
@@ -50,7 +55,35 @@ MYISAM和InnoDB的区别：
   > * 不过Mysql InnoDB 允许使用next-key lock（临键锁）锁算法来避免幻读的发生；
   >
 
-#### mysql锁的机制？InnoDB锁的算法？
+### mysql锁
+
+#### mysql相关锁
+锁机制主要用于管理对共享资源并发访问。<br>
+在数据库中lock和latch都称为锁，但是两者的意义不一样。
+- latch：称为闩锁（shuang suo），其要求锁定的时间必须非常短。若持续的时间长，则应用的性能会非常差。
+  <br>在InnoDB存储引擎中，latch又分为mutex互斥锁.
+  ![img.png](img/img.png)
+- lock：lock的对象是事务，用来锁定的是数据库中的对象，如表、页、行。并且一般lock的对象仅在事务commit或者rollback后进行释放。有死锁检测机制。 
+  
+通过 ``show engine innodb mutex``可以查看InnoDB存储引擎的中latch
+![img.png](img/mutex_img.png)
+
+#### mysql Lock介绍
+![img.png](img/lock_img.png)
+
+- 按照细粒度：
+  - 表锁：在表读锁和表写锁的环境下：读读不阻塞，读写阻塞，写写阻塞！
+    - 表读锁
+    - 表写锁
+  - 行锁：
+    - 共享锁
+    - 排它锁
+
+- 不同的存储引擎支持锁的力度不一样
+  - myisam 支持表锁
+  - InnoDB 支持表锁和行锁
+
+注意：InnoDB只有通过索引条件检索数据才使用行级锁，否则，InnoDB将使用表锁。也就是说，InnoDB的行锁是基于索引的。
 
 #### mysql InnoDB MVCC是啥？实现原理？
 
