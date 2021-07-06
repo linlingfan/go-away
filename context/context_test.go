@@ -21,5 +21,5 @@ func TestContext(t *testing.T) {
 func TestContextValue(t *testing.T) {
 	//c:=context.TODO()
 	c := context.Background()
-	cDeadLine,err:=context.WithDeadline(c,time.Now())
+	cDeadLine, err := context.WithDeadline(c, time.Now())
 }
