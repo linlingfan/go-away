@@ -240,12 +240,14 @@ mysql有四个分区类型；(TODO)
     - InnoDB 存储引擎在 MySQL 5.6.4 版本中也开始支持全文索引。 
   
 
-#### mysql索引底层数据结构？B数和B+树？
+#### mysql索引底层数据结构？B数和B+树？TODO
 - [mysql底层数据结构](https://www.jianshu.com/p/1775b4ff123a)
-- 
+- 为什么B+树适合做索引？不平衡二叉树、平衡二叉树已经红黑树为啥不行？
+
 #### mysql索引类型？如何创建使用索引？索引的设计和使用建议？
- - [参考](https://zhuanlan.zhihu.com/p/29118331)
-1. 索引类型：
+ - [参考:https://zhuanlan.zhihu.com/p/29118331](https://zhuanlan.zhihu.com/p/29118331)
+ - [参考:https://cloud.tencent.com/developer/article/1803404?from=article.detail.1614355](https://cloud.tencent.com/developer/article/1803404?from=article.detail.1614355)
+1. 索引类型：TODO
   - 主键索引
   - 辅助索引（二级索引）
   - 聚集索引和非聚集索引
@@ -311,12 +313,80 @@ mysql有四个分区类型；(TODO)
    - 按索引顺序扫描：通过有序索引顺序扫描直接返回有序数据,explain分析语句之后显示Using index。
 
 #### Mysql bin log、undo log、redo log作用和区别
-
+- redolog日志：又叫重做日志；记录是数据页的变更（物理日志，InnoDB记录），
+    - [参考](https://blog.csdn.net/qq_34436819/article/details/105664256)
+    - 因此他是固定大小，循环写入 。write point 和 check point相遇时候写入磁盘（、正常关闭的时候写入磁盘）；
+    - MySQL 通过 redo log 机制，以及两阶段事务提交（prepare 和 commit）来保证了事务的持久性。
+    - MySQL 中，只有当 innodb_flush_log_at_trx_commit 参数设置为 1 时，才不会出现数据丢失情况，当设置为 0 或者 2 时，可能会出现数据丢失。
+    - 当 MySQL 宕机或者机器断电，内存中的数据就会丢失，因此 MySQL 为了防止缓存页中的数据在更新后出现数据丢失的现象，引入了redo log机制。  
+    那么当MySQL重新启动时，可以根据 redo log 日志文件，进行数据重做，将数据恢复到宕机或者断电前的状态，保证了更新的数据不丢失
+    
+- bin log日志：binlog是mysql数据库service层，是所有存储引擎共享的日志模块，当事物commit提交的时候，以二进制的形式保存于磁盘中，binlog是逻辑日志是已追加的形式写入的。
+    - bin log主要用再主从复制，和数据恢复场景中
+    
+- undo log日志：
+    - undo log日志记录的是每条数据的所有版本，比如update语句，我会将该条记录的数据记录到undo log日志中，并且将最新版本你的roll_pointer指针指向上一个版本，这样就可以形成当前的所有版本，这就是mvcc机制，即用户读取一行记录时候，若该记录已经被其他事物占用，当前事务可以通过undo log读取之前的行版本信息，一实现非锁定读取。  
+      undo log 记录的是逻辑日志，可以认为当delete一条记录的时候，undo log 记录的是insert记录，当update 语句的时候，记录的是一条相反的update记录
+      
+- bin log和redo log如何写入保证数据的一致性
+``update T set c=c+1 where ID=2;``
+![img.png](img/redo_log.png)
+  
 #### 一条查询语句的执行顺序？
+下面我们来具体分析一下查询处理的每一个阶段  
+FORM: 对FROM的左边的表和右边的表计算笛卡尔积。产生虚表VT1  
+ON: 对虚表VT1进行ON筛选，只有那些符合的行才会被记录在虚表VT2中。     
+JOIN： 如果指定了OUTER JOIN（比如left join、 right join），那么保留表中未匹配的行就会作为外部行添加到虚拟表VT2中，产生虚拟表VT3, rug from子句中包含两个以上的表的话，那么就会对上一个join连接产生的结果VT3和下一个表重复执行步骤1~3这三个步骤，一直到处理完所有的表为止。  
+WHERE： 对虚拟表VT3进行WHERE条件过滤。只有符合的记录才会被插入到虚拟表VT4中。    
+GROUP BY: 根据group by子句中的列，对VT4中的记录进行分组操作，产生VT5.  
+CUBE | ROLLUP: 对表VT5进行cube或者rollup操作，产生表VT6.  
+HAVING： 对虚拟表VT6应用having过滤，只有符合的记录才会被 插入到虚拟表VT7中。  
+SELECT： 执行select操作，选择指定的列，插入到虚拟表VT8中。  
+DISTINCT： 对VT8中的记录进行去重。产生虚拟表VT9.  
+ORDER BY: 将虚拟表VT9中的记录按照<order_by_list>进行排序操作，产生虚拟表VT10.  
+LIMIT：取出指定行的记录，产生虚拟表VT11, 并将结果返回。  
 
+- 写的顺序：select ... from... where.... group by... having... order by.. limit [offset,] (rows) 
+- 执行顺序：from... where...group by... having.... select ... order by... limit
 ## 线上问题
 
 #### 线上大表DDL如何操作（大表加索引，新增字段）？
+- [参考](https://blog.csdn.net/weixin_42355215/article/details/113266497)  
+解决方案：  
+- 中间表-rename的方案：当并发量不大时，可以采用。即使存在短暂不可用，其实影响非常小。但如果是高并发场景下，策略就略有不同。
+- MySQL5.5以及以上，由于MySQL原生支持Online DDL特性，因此推荐使用原生Online DDL，但是如果DDL变更需要进行COPY TABLE操作，则还是推荐使用online-schema-change工具；
+- pt-online-schema-change：是percona公司开发的一个工具，在percona-toolkit包里面可以找到这个功能，它可以在线修改表结构
+    - 原理：
+        - 首先它会新建一张一模一样的表，表名一般是_new后缀
+        - 然后在这个新表执行更改字段操作
+        - 然后在原表上加三个触发器，DELETE/UPDATE/INSERT，将原表中要执行的语句也在新表中执行
+        - 最后将原表的数据拷贝到新表中；删除触发器以及原表。
+    - 使用：
+        - 添加新列  
+       `` pt-online-schema-change --user=root --password=root --alter "add column score int(3)" D=test,t=tuser --print --execute ``
+        - 修改字段类型  
+        `` pt-online-schema-change --user=root --password=root --alter "modify score varchar(10) DEFAULT NULL" D=test,t=tuser --print --execute --no-check-alter ``
+        - 删除索引  
+        `` pt-online-schema-change --user=root --password=root --alter "drop index name_age" D=test,t=tuser --print --execute ``
+        - 添加索引  
+        `` pt-online-schema-change --user=root --password=root --alter "add index idx_id_card(id_card)" D=test,t=tuser --print --execute ``
+        - 修改存储引擎、碎片整理  
+        `` t-online-schema-change --user=root --password=root --alter "engine=innodb" D=test,t=tuser –execute ``
+      
 #### 分布式事务解决方案？
+- [参考](https://www.cnblogs.com/jiangyu666/p/8522547.html)
+1. 基于XA协议的两阶段提交方案。 2. TCC方案 3. 基于消息的最终一致性方案 4. GTS--分布式事务解决方案
+
+
 #### mysql大表优化方案？
-    
+- 限定数据范围
+
+- 读写分离
+
+- 垂直分表
+
+- 水平分区(分片的常见方案)
+    - 客户端代理（Sharding-JDBC）
+    - 中间件代理（MyCat）
+
+- 分库分表
