@@ -423,8 +423,14 @@ LIMIT：取出指定行的记录，产生虚拟表VT11, 并将结果返回。
         - 修改存储引擎、碎片整理  
           `` t-online-schema-change --user=root --password=root --alter "engine=innodb" D=test,t=tuser –execute ``
 
-#### CAP理论
+#### CAP理论?
 
+- [http://www.ruanyifeng.com/blog/2018/07/cap.html](http://www.ruanyifeng.com/blog/2018/07/cap.html)
+
+- 分布式系统的三个指标
+    - Consistency 一致性 ：写操作之后的读操作，必须返回该值。
+    - Availability 可用性 ：意思是只要收到用户的请求，服务器就必须给出回应。
+    - Partition tolerance 分区容错 --区间（如：不同服务器间）通讯可能失败，所以可以认定分区容错无法避免 P永远成立，剩下的C和A无法同事成立。
 
 #### 分布式事务解决方案？
 
