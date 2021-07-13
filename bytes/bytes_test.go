@@ -50,3 +50,13 @@ func TestByteBuffer(t *testing.T) {
 	println(l)
 }
 
+func TestTowStrSum(t *testing.T){
+	m:=[]byte("923")
+	println(m[0])
+	println(m[1])
+	println('0')
+
+	println(m[0]+m[1] - '0' - '0')
+
+	println(byte('9') + byte(1))
+}
