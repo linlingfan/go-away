@@ -24,6 +24,7 @@
             - 收到三次ack
             
 ###. 三次握手 四次挥手
+[参见](https://mp.weixin.qq.com/s/NL7Jzh0lYoA395yzaGxBHw)
     - 三次握手
     - 四次挥手
 ### DNS域名解析的过程？
@@ -33,5 +34,6 @@
 ### 如何保证TCP链接的稳定性
 
 ### 打开一个URL的过程
-
-### 
+[参考](https://mp.weixin.qq.com/s/I6BLwbIpfGEJnxjDcPXc1A)
+### TCP 半连接队列和全连接队列满了会发生什么？又该如何应对？
+[参见](https://mp.weixin.qq.com/s/tRXlq1hErqKQLMMLcxoXvg)
