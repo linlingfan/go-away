@@ -1,9 +1,7 @@
 package context
 
 import (
-	"context"
 	"testing"
-	"time"
 )
 
 func TestContext(t *testing.T) {
@@ -20,6 +18,6 @@ func TestContext(t *testing.T) {
 
 func TestContextValue(t *testing.T) {
 	//c:=context.TODO()
-	c := context.Background()
-	cDeadLine, err := context.WithDeadline(c, time.Now())
+	//c := context.Background()
+	//cDeadLine, err := context.WithDeadline(c, time.Now())
 }
