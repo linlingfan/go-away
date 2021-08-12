@@ -158,3 +158,80 @@ func TestName6(t *testing.T) {
 //一个包被引用多次，如A import B，C import B，A import C，B被引用多次，但B包只会初始化一次；
 //引入包，不可出现死循环。即A import B，B import A，这种情况下编译失败；
 
+// next-----
+
+func TestName7(t *testing.T) {
+	str := "hello"
+	//str[0] = 'x' // Go 语言中的字符串是只读的。
+	fmt.Println(str)
+
+	// nil 切片和 nil 相等，一般用来表示一个不存在的切片；空切片和 nil 不相等，表示一个空的集合
+	var s1 []int
+	//var s2 = []int{}
+	if s1 == nil {
+		fmt.Println("yes nil")
+	} else {
+		fmt.Println("no nil")
+	}
+
+	//i := 65
+	//fmt.Println(string(i))
+
+	s := [3]int{1, 2, 3}
+	d := s[1:2:cap(s)]
+	println(len(d))
+	println(cap(d))
+	// 截取操作有带 2 个或者 3 个参数，形如：[i:j] 和 [i:j:k]，假设截取对象的底层数组长度为 l。在操作符 [i:j] 中，如果 i 省略，默认 0，如果 j 省略，默认底层数组的长度，截取得到的切片长度和容量计算方法是 j-i、l-i。
+	// 操作符 [i:j:k]，k 主要是用来限制切片的容量，但是不能大于数组的长度 l，截取得到的切片长度和容量计算方法是 j-i、k-i。
+}
+
+// next-------
+
+func TestName8(t *testing.T) {
+	s1 := []int{1, 2, 3}
+	s2 := s1[1:]
+	s2[1] = 4
+	fmt.Println(s1)
+	s2 = append(s2, 5, 6, 7)
+	//s1 = append(s1, 8, 9)
+	//fmt.Println(s2)
+	fmt.Println(s1)
+}
+
+// golang 中切片底层的数据结构是数组。当使用 s1[1:] 获得切片 s2，和 s1 共享同一个底层数组，这会导致 s2[1] = 4 语句影响 s1。
+//而 append 操作会导致底层数组扩容，生成新的数组，因此追加数据后的 s2 不会影响 s1。
+//但是为什么对 s2 赋值后影响的却是 s1 的第三个元素呢？这是因为切片 s2 是从数组的第二个元素开始，s2 索引为 1 的元素对应的是 s1 索引为 2 的元素。
+
+// next------
+func TestName9(t *testing.T) {
+	a := 1
+	b := 2
+	defer calc("1", a, calc("10", a, b))
+	a = 0
+	defer calc("2", a, calc("20", a, b))
+	b = 1
+}
+
+func calc(index string, a, b int) int {
+	ret := a + b
+	fmt.Println(index, a, b, ret)
+	return ret
+}
+
+// 程序执行到 main() 函数三行代码的时候，会先执行 calc() 函数的 b 参数，即：calc("10",a,b)，输出：10 1 2 3，得到值 3，因为 defer 定义的函数是延迟函数，故 calc("1",1,3) 会被延迟执行；
+//程序执行到第五行的时候，同样先执行 calc("20",a,b) 输出：20 0 2 2 得到值 2，同样将 calc("2",0,2) 延迟执行；
+//程序执行到末尾的时候，按照栈先进后出的方式依次执行：calc("2",0,2)，calc("1",1,3)，则就依次输出：2 0 2 2，1 1 3 4。
+
+// next-----
+// 重点介绍下这个操作符 &^，按位置零，例如：z = x &^ y，表示如果 y 中的 bit 位为 1，则 z 对应 bit 位为 0，否则 z 对应 bit 位等于 x 中相应的 bit 位的值。
+// 很多语言都是采用 ~ 作为按位取反运算符，Go 里面采用的是 ^ 。按位取反之后返回一个每个 bit 位都取反的数，对于有符号的整数来说，是按照补码进行取反操作的（快速计算方法：对数 a 取反，结果为 -(a+1) ），对于无符号整数来说就是按位取反。
+// 或操作符 | ，表达式 z = x | y，如果 y 中的 bit 位为 1，则 z 对应 bit 位为 1，否则 z 对应 bit 位等于 x 中相应的 bit 位的值，与 &^ 完全相反
+func TestName10(t *testing.T) {
+	var x uint8 = 214
+	var y uint8 = 92
+	fmt.Printf("x: %08b\n", x)
+	fmt.Printf("y: %08b\n", y)
+	fmt.Printf("x ^ y: %08b\n", x^y)
+	fmt.Printf("x | y: %08b\n", x|y)
+	fmt.Printf("x &^ y: %08b\n", x&^y)
+}
