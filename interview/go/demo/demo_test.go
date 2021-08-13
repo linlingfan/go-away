@@ -2,6 +2,7 @@ package demo
 
 import (
 	"fmt"
+	"strconv"
 	"sync"
 	"testing"
 	"time"
@@ -234,4 +235,12 @@ func TestName10(t *testing.T) {
 	fmt.Printf("x ^ y: %08b\n", x^y)
 	fmt.Printf("x | y: %08b\n", x|y)
 	fmt.Printf("x &^ y: %08b\n", x&^y)
+}
+
+func TestName11(t *testing.T) {
+	var a int = 64
+	//var b string = string(a)
+	//println(b)
+	c:=strconv.Itoa(a)
+	println(c)
 }
