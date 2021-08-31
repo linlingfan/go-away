@@ -15,11 +15,11 @@
 
 #### 专业技能
 
-- 熟练掌握 Golang、Java 主流语言；了解使用 Python、NodeJS 等
-- 熟悉JVM内存模型和垃圾回收机制；熟悉 Go GMP 模型和垃圾回收机制等
-- 熟悉掌握 Gin、SpringBoot 等web框架；熟练掌握ORM框架：JinZhu、MyBatis 等
+- 熟练掌握 Golang、Java 主流语言；了解使用 Python、NodeJS等
+- 熟悉JVM内存模型和垃圾回收机制；熟悉 Go GMP 模型和垃圾回收机制
+- 熟悉掌握 Gin、SpringBoot 等web框架；熟练掌握ORM框架：JinZhu、MyBatis等
 - 了解使用前端Vue框架，熟练使用 Element、AntDesign等组件
-- 熟练使用关系型数据库：MySQL 并有相关SQL调优经验；熟练使用非关系型数据库：Redis、MongoDB 等
+- 熟练使用关系型数据库：MySQL 有相关SQL调优经验；熟练使用非关系型数据库：Redis、MongoDB等
 - 熟练使用消息中间件 RabbitMQ，了解使用Kafka和RocketMQ
 - 熟练使用Git版本控制，了解使用 GitLab CI CD
 - 熟悉掌握Linux常用命令，了解计算机网络常用知识，熟悉使用阿里云相关服务
