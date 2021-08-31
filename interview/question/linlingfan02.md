@@ -21,7 +21,7 @@
 - 熟练使用关系型数据库：MySQL ；熟练使用非关系型数据库：Redis、MongoDB
 - 熟练使用消息中间件 RabbitMQ，了解使用 Kafka 和 RocketMQ
 - 熟练使用Git版本控制，了解使用 GitLab CI CD
-- 熟悉掌握Linux常用命令，熟悉计算机网络常用知识，熟悉使用阿里云相关服务产品
+- 熟悉计算机网络常用知识，熟悉使用阿里云相关服务产品
 - 熟练编写单元测试；熟练使用 JetBrain、VSCode、Postman 等开发工具
 
 <hr>
@@ -44,7 +44,7 @@
     1. 收营台系统：主要负责项目重构和迭代开发。
     2. 会员鉴权：主要负责部分重构和迭代维护开发。包含会员鉴权、退会员、订阅、解约、消息通知等服务，QPS达4k+。
     3. 其他如 抽奖系统、会员管理系统、券码系统、会员等级系统、分销系统、小说单点付费系统等多个golang项目负责人。
-  - 相关技术：Golang + Gin + Mysql + MongoDB + Redis + RabbitMQ + Apollo + Etcd + K8s等。 
+  - 相关技术：Golang + Gin + Mysql + MongoDB + Redis + RabbitMQ/Kafka + Apollo + Etcd + K8s等。 
     项目使用统一的 QT-boot web 框架；该内部框架基于 Gin 的封装，整合第三方基础依赖包；配置中心化管理；
     项目间主要通过 Restful api 和消息中间件进行通信；项目容器化，使用阿里云K8s管理。主要使用阿里云服务产品。
   - 职责角色：  
@@ -77,7 +77,7 @@
       - 项目简介：SEO优化平台分主由代理商平台、优化师的平台以及客户管理系统组成。
         采用代理商下单和优化师接单的方式提供平台对接服务；后台提供订单，计价查询，客户管理，排名爬虫等服务。
       - 相关技术：  
-        后端：SpringBoot + Mybatis + RabbitMQ + 权限Shiro框架。面向切面的操作日志记录和管理。
+        后端：SpringBoot + Mybatis + RabbitMQ + 权限Shiro框架。面向切面的操作日志记录和管理。  
         前端：VueJS + ElementUI + Bootstrap
       - 职责角色：创业合伙人，前后端负责人。
 
