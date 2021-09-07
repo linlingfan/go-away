@@ -19,6 +19,9 @@ func main() {
 	fmt.Println(p.X == q.X && p.Y == q.Y) // "true"
 	fmt.Println(p == q)                   // "true"
 	fmt.Println(&p == &q)                 // "false"
+
+	// slice
+	SliceArr()
 }
 
 func BitTest() {
@@ -53,3 +56,17 @@ const (
 )
 
 type Point struct{ X, Y int }
+
+func SliceArr() {
+	sl := make([]int, 1, 10) // sl len=0 cap =10 ->[0] 底层数组 []
+	var appenFunc = func(s []int) {
+		s = append(s, 10, 20, 30)
+		fmt.Println(s) // 底层数组 [0,10,20,30] // sl len 1 cap 10 [0]
+	}
+
+	fmt.Println(sl)
+	appenFunc(sl)
+	fmt.Println(sl) // sl len=0 cap =10 ->[]
+	ss := sl[:10]   // sl len=10 cap = 10 -> 底层数组：[10,20,30,0,0...]
+	fmt.Println(ss)
+}
