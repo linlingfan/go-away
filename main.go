@@ -1,5 +1,6 @@
 package main
 
+var Id = 12345
 func main() {
 	x, y := 0, 1
 	n := 10
