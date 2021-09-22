@@ -4,10 +4,20 @@
     https://www.cnblogs.com/wqhwe/p/5407468.html
     
 ### https加密过程
+
+客户端请求服务器获取证书公钥
+客户端(SSL/TLS)解析证书（无效会弹出警告）
+生成随机值
+用公钥加密随机值生成密钥
+客户端将秘钥发送给服务器
+服务端用私钥解密秘钥得到随机值
+将信息和随机值混合在一起进行对称加密
+将加密的内容发送给客户端
+客户端用秘钥解密信息
     
 ###. TCP流量控制和拥塞控制 
-    - [链接1](https://www.cnblogs.com/LloydDracarys/articles/9032696.html)
-    - [链接2](https://blog.csdn.net/dangzhangjing97/article/details/81008836)
+- [链接1](https://www.cnblogs.com/LloydDracarys/articles/9032696.html)
+- [链接2](https://blog.csdn.net/dangzhangjing97/article/details/81008836)
     - 流量控制（数据单位是字节）：通过滑动窗口实现，接收方在返回的ack中告知发送发自己接受窗口的大小，进而控制发送发数据发送的大小；
     防止发送方发送数据过快过多导致接收方处理不过，进而数据溢出导致丢包。
         - 死锁原因和解决：
@@ -28,8 +38,10 @@
     - 三次握手
     - 四次挥手
 ### DNS域名解析的过程？
+[http://c.biancheng.net/view/6455.html](http://c.biancheng.net/view/6455.html)
 
 ### TCP和UDP的区别？
+
 
 ### 如何保证TCP链接的稳定性
 
