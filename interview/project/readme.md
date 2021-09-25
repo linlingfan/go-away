@@ -20,8 +20,10 @@
 
 #### 设计一个海量日志写入系统
 
+
 #### 设计一个聊天室
 
 #### 微信抢红包
 
 ### 电商秒杀系统
+- [https://mp.weixin.qq.com/s/KWb3POodisbOEsQVblsoGw](https://mp.weixin.qq.com/s/KWb3POodisbOEsQVblsoGw)

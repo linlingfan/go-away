@@ -6,7 +6,7 @@
 - [53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)  
 - [买股票最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
 
-### 贪心算法
+### 贪心算法 
 
 ### BFS、DFS遍历
 
@@ -63,7 +63,11 @@ func backtrack(路径，选择列表) {
 
 ### 树的遍历 中序遍历 前序遍历 后续遍历
 
-- 
+- （1）先(根)序遍历（根左右）
+
+- （2）中(根)序遍历（左根右）
+
+- （3）后(根)序遍历（左右根）
 
 ### 洗牌算法
 
@@ -75,3 +79,4 @@ func backtrack(路径，选择列表) {
 - [31. 下一个排列](https://leetcode-cn.com/problems/next-permutation/)
 - [146. LRU 缓存机制](https://leetcode-cn.com/problems/lru-cache/)
 - [42. 接雨水](https://leetcode-cn.com/problems/trapping-rain-water/)
+
