@@ -1,5 +1,8 @@
 ## redis
 
+- [基本知识](https://mp.weixin.qq.com/s/aOiadiWG2nNaZowmoDQPMQ)
+- [参考](https://github.com/Snailclimb/JavaGuide/blob/master/docs/database/Redis/redis-all.md)
+
 ### redis的常用数据结构？使用场景？bitmap布隆过滤器、HyperLogLog?
 
 ### redis分布式锁 
