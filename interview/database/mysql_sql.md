@@ -195,3 +195,19 @@ mysqldump [options] --all--database
 　　mysql -u用户名 -p密码 库名 < 备份文件
 
 ```
+
+# 美团面试题
+Table A
+name   course   score
+
+A             S1         90
+
+A             S2         80
+
+B             S1         85
+
+B             S2         92
+
+找出超过1人分数大于80的课程
+
+select m.course  from (select course,count(*) as num from A where score > 80 group by course) as m where m.num > 1
